@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import generate from "../../assets/generate.png";
-import { ensoInsightData } from "../../data/insightsData";
-import AlertDistribution from "./AlertDistribution";
-import MessageBubble from "./messageBubble";
+import generate from "@/assets/generate.png";
+import MessageBubble from "@/components/molecule/messages/messageBubble";
 
 export default function GeneratedRecommend({ data, setVisible }) {
   const [selectedNavigation, setSelectedNavigation] = useState(1);

@@ -62,14 +62,14 @@ const RevenueCalculator = ({ crop }) => {
       <div className="text-white text-center mt-3 mb-2">
         Commodity Price in The Future
       </div>
-      <div className="flex flex-wrap gap-y-4 w-fit  bg-neutral-700 rounded-lg overflow-hidden justify-center">
+      <div className="flex flex-wrap gap-y-4 w-fit bg-neutral-700 rounded-lg overflow-hidden justify-center">
         {["3 Months", "6 Months", "12 Months"].map((month) => (
           <button
             key={month}
             onClick={() => setSelectedMonth(month)}
-            className={`px-3 py-1  xl:px-6 xl:py-2 border-2  rounded-lg ${
+            className={`px-3 py-1 xl:px-6 xl:py-2 border-2 rounded-lg transition-all duration-300 ${
               selectedMonth === month
-                ? "bg-neutral-800 border-2 border-neutral-500 text-white"
+                ? "bg-neutral-800 border-neutral-500 text-white"
                 : "border-neutral-700"
             } focus:outline-none`}
           >

@@ -84,7 +84,7 @@ export default function YieldOptimizer() {
   const [visible, setVisible] = useState(false);
   const [soonFeature, setSoonFeature] = useState("");
 
-  const [visibleGenerated, setVisibleGenerated] = useState(true);
+  const [visibleGenerated, setVisibleGenerated] = useState(false);
 
   const distance = 0.1;
   const bounds = [

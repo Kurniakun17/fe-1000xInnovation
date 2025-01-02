@@ -1,9 +1,10 @@
 import React from "react";
-import AlertDistribution from "./AlertDistribution";
+import AlertDistribution from "./alertDistribution";
 import generate from "@/assets/generate.png";
 import CriticalAlertBreakdown from "./criticalAlertBreakdown";
 import WaterResources from "./waterResources";
 import CommodityPredictionTable from "./commodityPredictionTable";
+import CommodityPredictionLine from "./commodityPredictionLine";
 
 const MessageBubble = ({ message }) => {
   return (
@@ -22,6 +23,10 @@ const MessageBubble = ({ message }) => {
         )}
         {message.type == "water_resources" && (
           <WaterResources data={message.data} />
+        )}
+
+        {message.type == "commodity_prediction_line" && (
+          <CommodityPredictionLine />
         )}
         <p className="text-gray-400">
           <span className="font-bold text-white">What To Do: </span>

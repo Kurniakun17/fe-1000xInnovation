@@ -128,6 +128,13 @@ export const ccFusionInsightData = {
       messages: [
         {
           id: 1,
+          type: "commodity_prediction_line",
+          data: {
+            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          },
+        },
+        {
+          id: 2,
           type: "commodity_prediction_table",
           data: {
             predictions: {
