@@ -9,6 +9,7 @@ import warning from "@/assets/warning.png";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Line } from "react-chartjs-2";
+import weatherMap from "@/assets/weatherMap.png";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -34,7 +35,7 @@ import {
   soil_moisture_difference,
   soil_moisture_today,
 } from "@/data/soilmoisture";
-import { ensoInsightData } from "../data/insightsData";
+import soilMoistureData, { ensoInsightData } from "../data/insightsData";
 
 ChartJS.register(
   CategoryScale,
@@ -90,11 +91,26 @@ export default function EnsoForecasting() {
   };
 
   const data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: [
+      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ],
     datasets: [
       {
-        label: "Data",
-        data: [100, 200, 150, 300, 250, 400, 350],
+        label: "Temperature (°C)",
+        data: [
+          22, // January
+          24, // February
+          26, // March
+          28, // April
+          30, // May
+          32, // June
+          33, // July
+          32, // August
+          30, // September
+          28, // October
+          25, // November
+          23, // December
+        ],
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: true,
@@ -103,19 +119,23 @@ export default function EnsoForecasting() {
           borderColor: function (context) {
             const index = context.p0DataIndex;
             const label = context.chart.data.labels[index];
-
+  
+            // Apply color based on the month
             if (
-              label === "April" ||
-              index > context.chart.data.labels.indexOf("April")
+              label === "June" ||
+              label === "July" ||
+              label === "August"
             ) {
-              return "blue";
+              return "red"; // Summer months
             }
-            return "green";
+            return "green"; // Other months
           },
         },
       },
     ],
   };
+  
+  
 
   const options = {
     responsive: true,
@@ -198,7 +218,7 @@ export default function EnsoForecasting() {
             />
           </div>
 
-          <div className="w-full py-8 rounded-lg">
+          <div className="w-full py-9 rounded-lg">
             <div className="flex flex-col lg:flex-row items-center mb-4 gap-4">
               {/* Soil Moisture */}
               <div className="lg:max-w-[352px] w-full border-2 border-neutral-500 px-6 py-2 pb-3 rounded-lg">
@@ -211,7 +231,7 @@ export default function EnsoForecasting() {
                 </div>
                 <div className="bg-gray-700 rounded-lg">
                   <div className="bg-white shadow-md h-36 rounded-lg">
-                    <Line data={data} options={options} />
+                    <Line data={soilMoistureData} options={options} />
                   </div>
                 </div>
               </div>
@@ -315,7 +335,7 @@ export default function EnsoForecasting() {
               PDF Full Report
             </button>
           </div>
-          <div className="border-2 border-neutral-500 px-6 py-4 rounded-lg">
+          <div className="border-2 border-neutral-500 px-6 py-4 mt-6 rounded-lg">
             <div className="flex gap-3">
               <img src={warning} className="size-7" alt="research" />
               <h3 className="text-lg mb-3">Temperature</h3>
@@ -329,8 +349,13 @@ export default function EnsoForecasting() {
 
           <div className="grid grid-cols-3 border-2 border-neutral-500 px-6 py-3 rounded-lg mt-4 gap-2">
             <h3 className="col-span-3 text-sm">Weather & Water Controllers</h3>
-            <div className="col-span-3 border-2 border-neutral-500 p-6 rounded-lg gap-2"></div>
-            <WaterCard title={"Humidity"} logo={supply} value={70}/>
+            <div className="col-span-3 xl:flex-col border-2 flex  border-neutral-500 p-6 rounded-lg gap-2">
+              <p className=" text-ellipsis overflow-hidden">
+                Water Temperature
+              </p>
+              <img src={weatherMap} />
+            </div>
+            <WaterCard title={"Humidity"} logo={supply} value={70} />
             <div className="col-span-3 xl:col-span-2 border-2 border-neutral-500 p-6 rounded-lg gap-2">
               <p>
                 Today after sunrise it will be slightly cloudy. After lunchtime

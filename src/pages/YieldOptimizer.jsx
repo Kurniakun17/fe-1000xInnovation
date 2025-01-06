@@ -34,6 +34,8 @@ import Navigation from "@/components/molecule/navigation";
 import SoonFeatureModal from "@/components/molecule/soonfeatureModal";
 import GeneratedRecommend from "@/components/molecule/generatedRecommendModal";
 import { ccFusionInsightData } from "../data/insightsData";
+import mockChartData from "../data/yieldChartData";
+import CommodityPredictionTable from "../components/molecule/messages/commodityPredictionTable";
 
 ChartJS.register(
   CategoryScale,
@@ -150,44 +152,45 @@ export default function YieldOptimizer() {
     setDateData({ tanggal: `${tanggal}-${bulan}-${tahun}` });
   };
 
-  const dataChart = {
-    labels: fetchedData.date,
-    datasets: [
-      {
-        data: fetchedData.value,
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: true,
-        tension: 0.1,
-        elements: {
-          point: {
-            radius: 0,
-          },
-        },
-        segment: {
-          borderColor: function (context) {
-            const index = context.p0DataIndex;
-            const label = context.chart.data.labels[index];
+  const dataChart = mockChartData[crop];
+  // const dataChart = {
+  //   labels: fetchedData.date,
+  //   datasets: [
+  //     {
+  //       data: fetchedData.value,
+  //       borderColor: "rgba(75, 192, 192, 1)",
+  //       backgroundColor: "rgba(75, 192, 192, 0.2)",
+  //       fill: true,
+  //       tension: 0.1,
+  //       elements: {
+  //         point: {
+  //           radius: 0,
+  //         },
+  //       },
+  //       segment: {
+  //         borderColor: function (context) {
+  //           const index = context.p0DataIndex;
+  //           const label = context.chart.data.labels[index];
 
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, "0");
-            const day = String(today.getDate()).padStart(2, "0");
+  //           const today = new Date();
+  //           const year = today.getFullYear();
+  //           const month = String(today.getMonth() + 1).padStart(2, "0");
+  //           const day = String(today.getDate()).padStart(2, "0");
 
-            const todayDate = `${year}-${month}-${day}`;
+  //           const todayDate = `${year}-${month}-${day}`;
 
-            if (
-              label === todayDate ||
-              index > context.chart.data.labels.indexOf(todayDate)
-            ) {
-              return "orange";
-            }
-            return "green";
-          },
-        },
-      },
-    ],
-  };
+  //           if (
+  //             label === todayDate ||
+  //             index > context.chart.data.labels.indexOf(todayDate)
+  //           ) {
+  //             return "orange";
+  //           }
+  //           return "green";
+  //         },
+  //       },
+  //     },
+  //   ],
+  // };
 
   const options = {
     responsive: true,
@@ -252,7 +255,7 @@ export default function YieldOptimizer() {
               setSelectedMode={setSelectedMode}
             />
           </div>
-          <div className="py-7 rounded-lg">
+          <div className="py-9 rounded-lg">
             {/* Line Chart */}
             <div className="w-full bg-gray-700 rounded-2xl">
               {fetchedData.date.length > 0 && (
@@ -284,6 +287,7 @@ export default function YieldOptimizer() {
                 <Rectangle bounds={bounds} color="green" />
               </MapContainer>
             </div>
+            <CommodityPredictionTable crop={crop} />
             {seasonalMonthData && seasonalQuarterData && seasonalYearData && (
               <PricePredictions
                 commodity={crop}
@@ -349,7 +353,7 @@ export default function YieldOptimizer() {
         )}
         {visibleGenerated && (
           <GeneratedRecommend
-            data={mockData}
+            data={{ ...mockData, crop }}
             setVisible={setVisibleGenerated}
           />
         )}

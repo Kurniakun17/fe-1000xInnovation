@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { cropPrices } from "@/data/yieldChartData";
+import { formatToIDR } from "../../helper/functions";
 
 const RevenueCalculator = ({ crop }) => {
   const [tons, setTons] = useState("");
@@ -32,18 +34,44 @@ const RevenueCalculator = ({ crop }) => {
     },
   });
 
+  // const handleGenerateRevenue = () => {
+  //   mutation.mutate();
+  // };
+
   const handleGenerateRevenue = () => {
-    mutation.mutate();
+    if (tons === "") return;
+
+    const currentDate = new Date();
+    const currentMonthIndex = currentDate.getMonth();
+    const cropData = cropPrices[crop];
+
+    let futurePrice = 0;
+
+    if (selectedMonth === "3 Months") {
+      const futureMonthIndex = (currentMonthIndex + 3) % 12;
+      futurePrice = cropData[futureMonthIndex];
+    } else if (selectedMonth === "6 Months") {
+      const futureMonthIndex = (currentMonthIndex + 6) % 12;
+      futurePrice = cropData[futureMonthIndex];
+    } else if (selectedMonth === "12 Months") {
+      const futureMonthIndex = (currentMonthIndex + 12) % 12;
+      futurePrice = cropData[futureMonthIndex];
+    }
+
+    const estimatedRevenue = tons * futurePrice;
+    setRevenue(estimatedRevenue.toFixed(0));
   };
 
+  console.log(typeof(revenue));
   return (
     <div className="flex flex-col items-center justify-center">
       {/* Estimated Revenue */}
       <div className="text-white text-lg">Estimated Revenue</div>
       <div className="bg-neutral-600 text-white text-xl font-bold rounded-md px-6 py-3">
-        {revenue
+        {/* {revenue
           ? `Rp${revenue.toLocaleString("en-US", { maximumFractionDigits: 2 })}`
-          : "Rp0"}
+          : "Rp0"} */}
+        {formatToIDR(Number(revenue))}
       </div>
 
       {/* Input Fields */}
@@ -80,7 +108,8 @@ const RevenueCalculator = ({ crop }) => {
 
       <button
         onClick={handleGenerateRevenue}
-        className="mt-5 bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-500 focus:outline-none"
+        disabled={tons === ""}
+        className="mt-5 bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400 text-white px-6 py-2 rounded-lg hover:bg-blue-500 focus:outline-none"
       >
         Generate Revenue
       </button>

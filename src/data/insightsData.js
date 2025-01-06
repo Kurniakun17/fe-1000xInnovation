@@ -177,3 +177,57 @@ export const ccFusionInsightData = {
     },
   ],
 };
+
+const soilMoistureData = {
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  datasets: [
+    {
+      label: "Soil Moisture (%)",
+      data: [
+        40, // January
+        42, // February
+        45, // March
+        55, // April (start of rainy season)
+        60, // May
+        70, // June
+        75, // July (peak of rainy season)
+        70, // August
+        65, // September
+        55, // October (end of rainy season)
+        50, // November
+        45, // December
+      ],
+      borderColor: "rgba(54, 162, 235, 1)",
+      backgroundColor: "rgba(54, 162, 235, 0.2)",
+      fill: true,
+      tension: 0.1,
+      segment: {
+        borderColor: function (context) {
+          const index = context.p0DataIndex;
+          const label = context.chart.data.labels[index];
+
+          // Adjusting border color based on the month
+          if (label === "June" || label === "July" || label === "August") {
+            return "blue";
+          }
+          return "green";
+        },
+      },
+    },
+  ],
+};
+
+export default soilMoistureData;

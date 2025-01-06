@@ -1,12 +1,15 @@
 import React from "react";
-import soybean from "@/assets/soybean.png";
-const CommodityPredictionTable = ({ data }) => {
+import { commoditiesImage } from "../../../constants/Assets";
+import { cropData, formatToIDR } from "../../../helper/functions";
+const CommodityPredictionTable = ({ data, crop }) => {
+  data = cropData[crop];
+
   return (
-    <div className=" border-2 border-neutral-600 rounded-xl overflow-hidden w-fit">
+    <div className=" border-2 min-w-[370px] border-neutral-600 rounded-xl overflow-hidden w-fit">
       <div className="flex gap-4 border-b-2 border-neutral-600 p-4">
-        <img src={soybean} />
+        <img className="size-10" src={commoditiesImage[crop]} />
         <div className="flex flex-col gap-1">
-          <h2 className="text-xl font-semibold">Soybeans</h2>
+          <h2 className="text-xl font-semibold">{crop}</h2>
           <h3>Commodity Price Predictions</h3>
         </div>
       </div>
@@ -16,7 +19,7 @@ const CommodityPredictionTable = ({ data }) => {
           Month
         </div>
         <div className="text-center p-2 border-b-2 border-neutral-600 py-3">
-          {data.month.price} IDR
+          {formatToIDR(data.month.price)}
         </div>
         <div
           className={`text-center p-2 border-b-2 border-neutral-600 py-3 ${
@@ -32,7 +35,7 @@ const CommodityPredictionTable = ({ data }) => {
           Quarter
         </div>
         <div className="text-center p-2 border-b-2 border-neutral-600 py-3">
-          {data.quarter.price} IDR
+          {formatToIDR(data.quarter.price)}
         </div>
         <div
           className={`text-center p-2 border-b-2 border-neutral-600 py-3 ${
@@ -44,11 +47,9 @@ const CommodityPredictionTable = ({ data }) => {
         </div>
 
         {/* Year */}
-        <div className="text-center p-2  py-3 text-green-600">
-          Year
-        </div>
+        <div className="text-center p-2  py-3 text-green-600">Year</div>
         <div className="text-center p-2  py-3">
-          {data.year.price} IDR
+          {formatToIDR(data.year.price)}
         </div>
         <div
           className={`text-center p-2  py-3 ${

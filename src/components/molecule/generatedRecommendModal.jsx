@@ -47,6 +47,7 @@ export default function GeneratedRecommend({ data, setVisible }) {
                   <MessageBubble
                     key={`message-${message.id}`}
                     message={message}
+                    crop={data.crop}
                   />
                 ))}
             </div>
